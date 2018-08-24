@@ -1,0 +1,140 @@
+%Sistema de comunicação
+
+clear all; close all;
+fclose('all');
+clc;
+
+MaxEb_No = 80;
+% Npontos = 100000;
+Npontos = 100000;
+% EbNo_db = linspace(-5,2000,1000);
+% EbNo = 10.^(EbNo_db/10);
+EbNo = inf;
+toleranciatrans = 1e-6;
+
+s_caostendaprod = zeros(1,Npontos);
+s_caos3dprod = zeros(1,Npontos);
+s_caos2dprod = zeros(1,Npontos);
+s_caos1dprod = zeros(1,Npontos);
+s_caostenda = zeros(1,Npontos);
+s_caos3d = zeros(1,Npontos);
+s_caos2d = zeros(1,Npontos);
+s_caos1d = zeros(1,Npontos);
+
+%Cálculo do BER
+transitorio = 100;
+
+ m = sign(randn(1,Npontos));
+% 
+s_caos1d = caos_1d(EbNo,Npontos,m);
+s_caostenda = caos_tenda(EbNo,Npontos,m);
+s_caos2d = caos_2d(EbNo,Npontos,m);
+s_caos3d = caos_3d(EbNo,Npontos,m);
+s_caostendaprod = caos_tenda_prod(EbNo,Npontos,m);
+s_caos1dprod = caos_1dprod(EbNo,Npontos,m);
+s_caos2dprod = caos_2dprod(EbNo,Npontos,m);
+s_caos3dprod = caos_3dprod(EbNo,Npontos,m);    
+
+%GRÁFICOS
+% 
+figure(1);
+%Escala - tempo
+    tempo = 0:Npontos-1;    
+% Mensagem
+    subplot(5,1,1);
+    plot(tempo,m,'k.');
+    title('\fontsize{14}Mensagem c1');  
+    grid on; 
+    ylabel('\fontsize{14}(a) m(n)');
+    axis([0 200 -1.5 1.5]);    
+
+% s_caos1d
+    subplot(5,1,2);
+    plot(tempo,s_caos1d,'b','linewidth',2);
+    title('\fontsize{14}Mapa Quadrático');  
+    grid on;
+    ylabel('\fontsize{14}(b) s_Q(n)');
+    axis([0 200 -1.5 1.5]);
+    
+%s_caostenda
+    subplot(5,1,3);
+    plot(tempo,s_caostenda,'g','linewidth',2);
+    title('\fontsize{14}Mapa Tenda Inclinada'); 
+    grid on;
+    ylabel('\fontsize{14}(c) s_{TI}(n)');
+    axis([0 200 -1.5 1.5]);
+    
+%s_caos2d
+    subplot(5,1,4);
+    plot(tempo,s_caos2d,'r','linewidth',2);
+    title('\fontsize{14}Mapa Hénon 2D'); 
+    grid on;
+    ylabel('\fontsize{14}(d) s_{H2D}(n)');
+    axis([0 200 -1.5 1.5]);    
+    
+%s_caos3d
+    subplot(5,1,5);
+    plot(tempo,s_caos3d,'m','linewidth',2);
+    title('\fontsize{14}Mapa Hénon 3D');   
+    grid on;
+    ylabel('\fontsize{14}(e) s_{H3D}(n)');
+    xlabel('n');
+    axis([0 200 -1.5 1.5]);  
+
+figure(2);
+%Escala - tempo
+    tempo = 0:Npontos-1;  
+    
+% Mensagem
+    subplot(5,1,1);
+    plot(tempo,m,'k.');
+    title('\fontsize{14}Mensagem');  
+    grid on; 
+    ylabel('\fontsize{14}(a) m(n)');
+    axis([0 200 -1.5 1.5]);     
+    
+% s_caos1dprod
+    subplot(5,1,2);
+    plot(tempo,s_caos1dprod,'b','linewidth',2);   
+    title('\fontsize{14}Mapa Quadrático');  
+    grid on;
+    ylabel('\fontsize{14}(b) s_Q(n)');
+    axis([0 200 -1.5 1.5]);
+    
+%s_caostendaprod
+    subplot(5,1,3);
+    plot(tempo,s_caostendaprod,'g','linewidth',2);
+    title('\fontsize{14}Mapa Tenda Inclinada'); 
+    grid on;
+    ylabel('\fontsize{14}(c) s_{TI}(n)(n)');
+    axis([0 200 -1.5 1.5]);
+    
+%s_caos2dprod
+    subplot(5,1,4);
+    plot(tempo,s_caos2dprod,'r','linewidth',2);
+    title('\fontsize{14}Mapa Hénon 2D'); 
+    grid on;
+    ylabel('\fontsize{14}(d) s_{H2D}(n)');
+    axis([0 200 -1.5 1.5]);    
+    
+%s_caos3dprod
+    subplot(5,1,5);
+    plot(tempo,s_caos3dprod,'m','linewidth',2);
+    title('\fontsize{14}Mapa Hénon 3D'); 
+    grid on;
+    ylabel('\fontsize{14}(e) s_{H3D}(n)');
+    xlabel('n');
+    axis([0 200 -1.5 1.5]);   
+    
+
+    
+    
+
+
+
+
+
+
+
+
+    
